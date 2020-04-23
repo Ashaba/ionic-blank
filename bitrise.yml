@@ -12,29 +12,23 @@ trigger_map:
 workflows:
   deploy:
     steps:
-    - activate-ssh-key@4.0.3:
-        run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
-    - git-clone@4.0.17: {}
-    - script@1.1.5:
-        title: Do anything with Script step
+    - npm@1.1.0:
+        inputs:
+        - command: install
+    # - generate-cordova-build-configuration@0.9.6: {}
+    # Android
+    - ionic-archive@2.1.0:
+        inputs:
+        - platform: "android"
+        - run_ionic_prepare: "true"
+        - target: device
+        - configuration: release
+    - deploy-to-bitrise-io@1.9.2: {}
+    before_run:
+    - build
+  build:
+    steps:
     - certificate-and-profile-installer@1.10.1: {}
     - npm@1.1.0:
         inputs:
         - command: install
-    - generate-cordova-build-configuration@0.9.6: {}
-    - ionic-archive@2.1.0:
-        inputs:
-        - platform: "$IONIC_PLATFORM"
-        - target: emulator
-    - deploy-to-bitrise-io@1.9.2: {}
-  build:
-    steps:
-    - activate-ssh-key@4.0.3:
-        run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
-    - git-clone@4.0.17: {}
-    - script@1.1.5:
-        title: Do anything with Script step
-    - npm@1.1.0:
-        inputs:
-        - command: install
-    - deploy-to-bitrise-io@1.9.2: {}
