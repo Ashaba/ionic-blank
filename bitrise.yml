@@ -22,10 +22,12 @@ workflows:
         inputs:
         - command: install
     - generate-cordova-build-configuration@0.9.6: {}
+    # Android
     - ionic-archive@2.1.0:
         inputs:
-        - platform: "$IONIC_PLATFORM"
-        - target: emulator
+        - platform: "android"
+        - run_ionic_prepare: "true"
+        - configuration: release
     - deploy-to-bitrise-io@1.9.2: {}
   build:
     steps:
