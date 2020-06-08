@@ -23,7 +23,11 @@ workflows:
         - run_ionic_prepare: "true"
         - target: device
         - configuration: release
-    - deploy-to-bitrise-io@1.9.2: {}
+    - fastlane@2.7.0:
+      inputs:
+        - lane: 'beta'
+        - update_fastlane: 'false'
+        - work_dir: "."
     before_run:
     - build
   build:
